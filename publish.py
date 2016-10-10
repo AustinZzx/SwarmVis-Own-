@@ -1,7 +1,7 @@
 import paho.mqtt.client as paho
 from randomcoordinate import initial
 from randomcoordinate import movement
-from signal import signal, SIGPIPE, SIG_DFL
+#from signal import signal, SIGPIPE, SIG_DFL
 
 c = paho.Client()                 #must declare a global client variable
  
@@ -9,9 +9,9 @@ def on_publish(client, userdata, mid):
     print("mid: "+str(mid))               #print out the mids
     
 def pubinit():
-   signal(SIGPIPE, SIG_DFL)       #to prevent a signal error
+   #signal(SIGPIPE, SIG_DFL)       #to prevent a signal error
    c.on_publish = on_publish
-   c.connect("127.0.0.1", 1883)
+   c.connect("iot.eclipse.org", 1883)
    c.loop_start()
    
 def simplepublish(topic, data):

@@ -16,7 +16,7 @@ def on_message(client, userdata, msg):
       message.append(str(msg.payload))
       
 def subinit():
-   csub.connect("127.0.0.1", 1883)
+   csub.connect("iot.eclipse.org", 1883)
    csub.on_subscribe = on_subscribe
    csub.on_message = on_message
 
