@@ -11,7 +11,7 @@ def on_publish(client, userdata, mid):
 def pubinit():
    #signal(SIGPIPE, SIG_DFL)       #to prevent a signal error
    c.on_publish = on_publish
-   c.connect("iot.eclipse.org", 1883)
+   c.connect("neptune.usc.edu", 1883)
    c.loop_start()
    
 def simplepublish(topic, data):
