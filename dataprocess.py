@@ -26,7 +26,7 @@ def slicerbtmsg():
 		vectors = coordinates.split()
 		global rbt2
 		rbt2 = np.vstack([rbt2, [float(vectors[0]),float(vectors[1]),float(vectors[2])]])
-	for coordinates in message[(2*k/num):]:
+	for coordinates in message[(2*k/num):(3*k/num)]:
 		vectors = coordinates.split()
 		global rbt3
 		rbt3 = np.vstack([rbt3, [float(vectors[0]),float(vectors[1]),float(vectors[2])]])	

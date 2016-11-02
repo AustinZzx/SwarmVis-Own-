@@ -19,23 +19,28 @@ Middle button or Alt-drag to drag up or down to zoom in or out.
 # ball_center stands still
 # ball1 and ball2 and ball3 to move
 
-ball_center = sphere(color = color.green, radius = 0.08)
+#ball_center = sphere(color = color.green, radius = 0.08)
 
 # define a coordinate system to compare
-X0 = arrow(pos=(0,0,0), axis=(10,0,0), color=color.white, shaftwidth=0.03)
-Y0 = arrow(pos=(0,0,0), axis=(0,10,0), color=color.white, shaftwidth=0.03)
-Z0 = arrow(pos=(0,0,0), axis=(0,0,10), color=color.white, shaftwidth=0.03)
+X0 = arrow(pos=(0,0,0), axis=(20,0,0), color=color.blue, shaftwidth=0.05)
+Y0 = arrow(pos=(0,0,0), axis=(0,20,0), color=color.blue, shaftwidth=0.05)
+Z0 = arrow(pos=(0,0,-0), axis=(0,0,20), color=color.blue, shaftwidth=0.05)
+X0neg = arrow(pos=(-20,0,0), axis=(20,0,0), color=color.white, shaftwidth=0.05)
+Y0neg = arrow(pos=(0,-20,0), axis=(0,20,0), color=color.white, shaftwidth=0.05)
+Z0neg = arrow(pos=(0,0,-20), axis=(0,0,20), color=color.white, shaftwidth=0.05)
 
-ball1 = sphere (color = color.red, radius = 0.2,make_trail = True, retain=5)
-	# retain: the time of trail to retain
-ball1.trail_object.radius = 0.02
-ball1.trail_object.color = color.red
-	#you can also set the radius and colr of trail
+f1 = frame(make_trail = True,retain=5)    # retain: the time of trail to retain
+f1.trail_object.radius = 0.02
+f1.trail_object.color = color.red
+ball1 = sphere(frame=f1, color = color.red, material=materials.silver, radius = 0.5,pos = (1,0,0))
+box1 = box(frame=f1,color = color.red,material=materials.silver,length=1, height=1,width=1.5)
+ring1 = ring(frame=f1,color = color.white,material=materials.silver,pos=(0,0,0), axis=(0,1,0), radius=1.2, thickness=0.1)
 
-ball2 = sphere (color = (0.34,0.63,0.9), radius = 0.2,make_trail = True, retain=5)
+ball2 = sphere (color = color.green, material=materials.silver, radius = 0.2,make_trail = True, retain=5)
 ball2.trail_object.radius = 0.02
+ball2.trail_object.color = color.green
 
-ball3 = sphere (color = color.yellow, radius = 0.2,make_trail = True, retain=5)
+ball3 = sphere (color = color.yellow, material=materials.silver, radius = 0.2,make_trail = True, retain=5)
 ball3.trail_object.radius = 0.02
 ball3.trail_object.color = color.yellow
 # positions contain the coordination of balls at different time
@@ -48,7 +53,7 @@ position3 = rbt3
 for i,j,k in zip(position1,position2,position3):
 	rate(3)
 	# rate controls the time to loop through
-	ball1.pos = i
+	f1.pos = i
 	ball2.pos = j
 	ball3.pos = k
 

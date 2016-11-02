@@ -26,7 +26,7 @@ def rbtpublish(num):                     #a sample simulation with
    while b < num:
       x,y,z = initial()
       a = 0
-      while a < 30:
+      while a < 50:
          x,y,z = movement(x,y,z)
          (rc, mid) =c.publish("robot%i" %(b+1),str(x)+" "+str(y)+" "+
                     str(z))
