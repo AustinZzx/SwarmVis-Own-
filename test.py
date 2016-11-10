@@ -1,8 +1,14 @@
-from publish import simplepublish
-from publish import rbtpublish
+from publish import *
 import time
+import thread
 
-#num = int(raw_input("Enter the number of robots you want to see: "))
-rbtpublish(6)
+
+try:
+   thread.start_new_thread( rbtpublishseperate, ("robot1", "robot2", ) )
+   thread.start_new_thread( rbtpublishseperate, ("drone1", "robot1", ) )
+except:
+   print "Error: unable to start thread"
+while 1:
+   pass
 time.sleep(1)
-simplepublish("robot2", "end")
+simplepublish("robot1", "end")

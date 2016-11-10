@@ -1,19 +1,24 @@
 import paho.mqtt.client as paho
-
+from construct import *
 csub = paho.Client()
-message = []
-
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
  
 def on_message(client, userdata, msg):
+	global status
     #print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))    
-    print(msg.topic+" "+" "+str(msg.payload))  
-    if str(msg.payload) == "end":
-      csub.disconnect()
-    else:
-      message.append(str(msg.payload))
+	print(msg.topic+" "+" "+str(msg.payload))  
+	if str(msg.payload) == "end":
+		csub.disconnect()
+		status = 0
+	elif msg.topic=="robot1":
+		vectors = str(msg.payload).split()
+		#drone1.rotate()
+		drone1.f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
+	elif msg.topic=="robot2":
+		vectors = str(msg.payload).split()
+		car1.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
       
 def subinit():
    csub.connect("neptune.usc.edu", 1883)
@@ -33,8 +38,12 @@ def rbtsubscribe(num):
    while d < num:
       csub.subscribe("robot%i" %(d+1), qos = 1)
       d = d+1
-   csub.loop_forever()
+   csub.loop_start()
    
-   
-
 num = int(raw_input("Enter the number of robots you want to see: "))
+create_coordinate(20)
+drone1 = Drone()  
+car1 = create_robot()
+drone1.f.pos = (0,0,0)
+car1.pos = (0,0,0)
+rbtsubscribe(num)

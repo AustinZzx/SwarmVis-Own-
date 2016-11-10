@@ -34,7 +34,7 @@ position6 = rbt6
 # here we set two balls start and end together
 # each visit will change the position of balls
 for i,j,k,l,m,n in zip(position1,position2,position3,position4,position5,position6):
-	rate(7)
+	rate(6)
 	# rate controls the time to loop through
 	drone1.f.pos = i
 	drone1.rotate()

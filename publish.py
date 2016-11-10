@@ -1,6 +1,8 @@
 import paho.mqtt.client as paho
 from randomcoordinate import initial
 from randomcoordinate import movement
+import time
+import thread
 #from signal import signal, SIGPIPE, SIG_DFL
 
 c = paho.Client()                 #must declare a global client variable
@@ -23,16 +25,25 @@ def simplepublish(topic, data):
 def rbtpublish(num):                     #a sample simulation with
    pubinit()                             #random numbers 
    b = 0
-   while b < num:
+   while a < 100:
       x,y,z = initial()
       a = 0
-      while a < 100:
-         x,y,z = movement(x,y,z)
-         (rc, mid) =c.publish("robot%i" %(b+1),str(x)+" "+str(y)+" "+
-                    str(z))
-         a = a+1
-      b = b+1
+      while b < num:
+		time.sleep(.5)
+		x,y,z = movement(x,y,z)
+		(rc, mid) =c.publish("robot%i" %(b+1),str(x)+" "+str(y)+" "+str(z))
+		b = b+1
+      a = a+1
    c.loop_stop()
+   
+def rbtpublishseperate(threadName, name):
+	pubinit()
+	x,y,z = initial()
+	while 1:
+		time.sleep(.5)
+		x,y,z = movement(x,y,z)
+		(rc, mid) =c.publish(name,str(x)+" "+str(y)+" "+str(z))
+	
    
 
 
