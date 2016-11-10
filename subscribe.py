@@ -19,6 +19,13 @@ def on_message(client, userdata, msg):
 	elif msg.topic=="robot2":
 		vectors = str(msg.payload).split()
 		car1.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
+	elif msg.topic=="robot3":
+		vectors = str(msg.payload).split()
+		#drone1.rotate()
+		drone2.f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
+	elif msg.topic=="robot4":
+		vectors = str(msg.payload).split()
+		car2.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
       
 def subinit():
    csub.connect("neptune.usc.edu", 1883)
@@ -43,7 +50,11 @@ def rbtsubscribe(num):
 num = int(raw_input("Enter the number of robots you want to see: "))
 create_coordinate(20)
 drone1 = Drone()  
+drone1.f.pos = (0,0,0)      #initialize a drone
 car1 = create_robot()
-drone1.f.pos = (0,0,0)
-car1.pos = (0,0,0)
+car1.pos = (0,0,0)          #initializa a car
+drone2 = Drone()
+drone2.f.pos = (0,0,0)  
+car2 = create_robot()
+car2.pos = (0,0,0)
 rbtsubscribe(num)

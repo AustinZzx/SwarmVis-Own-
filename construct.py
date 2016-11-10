@@ -35,7 +35,7 @@ class Drone:
 	def rotate(self):
 		i = 0
 		while i<30:
-			rate(500)
+			rate(500000)
 			self.roll1.rotate(angle=pi/16, axis=(0,0,1), origin=self.roll1.pos)
 			self.roll2.rotate(angle=pi/16, axis=(0,0,1), origin=self.roll2.pos)
 			self.roll3.rotate(angle=pi/16, axis=(0,0,1), origin=self.roll3.pos)
