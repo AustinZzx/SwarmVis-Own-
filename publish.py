@@ -19,7 +19,7 @@ def simplepublish(topic, data):         #publish one position with a partivular 
    (rc, mid) =c.publish(topic, data)      
    c.loop_stop()
       
-
+"""
 def rbtpublish(num):                     #a sample simulation with num robots
    pubinit()                             #50 random positions for each robot
    b = 0
@@ -33,6 +33,7 @@ def rbtpublish(num):                     #a sample simulation with num robots
 		b = b+1
       a = a+1
    c.loop_stop()
+   """
    
 def rbtpublishseperate(threadName, topic):           #continuously publish random positions for one robot
 	pubinit()

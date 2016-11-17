@@ -12,7 +12,7 @@ def on_message(client, userdata, msg):
 	if str(msg.payload) == "end":
 		csub.disconnect()
 		status = 0
-	elif msg.topic=="robot1":
+	elif msg.topic=="robot1":            #read objects from string
 		vectors = str(msg.payload).split()
 		#drone1.rotate()
 		drone1.f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))

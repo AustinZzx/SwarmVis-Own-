@@ -42,7 +42,7 @@ class Drone:
 			self.roll4.rotate(angle=pi/16, axis=(0,0,1), origin=self.roll4.pos)
 			i=i+1
 	
-def create_robot():
+def create_robot():       #to class
 	f = frame(make_trail = False,retain=5) 
 	f.trail_object.radius = 0.05
 	f.trail_object.color = color.white
