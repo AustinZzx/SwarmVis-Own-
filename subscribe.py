@@ -1,4 +1,4 @@
-import paho.mqtt.client as paho
+import paho.mqtt.client as paho         #nose unit test
 from construct import *
 csub = paho.Client()
 
