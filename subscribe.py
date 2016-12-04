@@ -1,60 +1,66 @@
 import paho.mqtt.client as paho         #nose unit test
 from construct import *
-csub = paho.Client()
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
  
 def on_message(client, userdata, msg):
-	global status
+    global carnum
+    global dronenum
+    global carlist
+    global dronelist
     #print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))    
-	print(msg.topic+" "+" "+str(msg.payload))  
-	if str(msg.payload) == "end":
-		csub.disconnect()
-		status = 0
-	elif msg.topic=="robot1":            #read objects from string
-		vectors = str(msg.payload).split()
-		#drone1.rotate()
-		drone1.f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
-	elif msg.topic=="robot2":
-		vectors = str(msg.payload).split()
-		car1.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
-	elif msg.topic=="robot3":
-		vectors = str(msg.payload).split()
-		#drone1.rotate()
-		drone2.f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
-	elif msg.topic=="robot4":
-		vectors = str(msg.payload).split()
-		car2.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
+    print(msg.topic+" "+" "+str(msg.payload))  
+    if str(msg.payload) == "end":
+        csub.disconnect()
+    elif msg.topic=="subscribe":
+        vectors = str(msg.payload).split()
+        csub.subscribe(vectors[0], 0)
+        if vectors[1]=="car":
+            carnum = carnum + 1
+            rbt=Car(vectors[0])
+            rbt.f.pos = (0,0,0)
+            carlist.append(rbt)
+        if vectors[1]=="drone":
+            dronenum = dronenum + 1
+            rbt=Drone(vectors[0])
+            rbt.f.pos = (0,0,0)
+            dronelist.append(rbt)
+    else:
+        vectors = str(msg.payload).split()
+        for i in range(0,carnum):
+            if carlist[i].topic == msg.topic:       
+                carlist[i].f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))
+        for i in range(0,dronenum):
+            if dronelist[i].topic == msg.topic:
+                dronelist[i].f.pos = (float(vectors[0]),float(vectors[1]),float(vectors[2]))        
       
 def subinit():
-   csub.connect("neptune.usc.edu", 1883)
-   csub.on_subscribe = on_subscribe
-   csub.on_message = on_message
+    csub.connect("neptune.usc.edu", 1883)
+    csub.on_subscribe = on_subscribe
+    csub.on_message = on_message
+    global carnum
+    global dronenum
+    global carlist
+    global dronelist
+    carnum = dronenum = 0
+    carlist = []
+    dronelist = []
+    create_coordinate(20)
 
  
    
 def simplesubscribe(topic, qos):
-   subinit()
-   csub.subscribe(topic, qos)
-   csub.loop_forever()
+    csub.subscribe(topic, qos)
+    csub.loop_start()
    
 def rbtsubscribe(num):
-   subinit()
-   d = 0
-   while d < num:
-      csub.subscribe("robot%i" %(d+1), qos = 1)
-      d = d+1
-   csub.loop_start()
-   
-num = int(raw_input("Enter the number of robots you want to see: "))
-create_coordinate(20)
-drone1 = Drone()  
-drone1.f.pos = (0,0,0)      #initialize a drone
-car1 = create_robot()
-car1.pos = (0,0,0)          #initializa a car
-drone2 = Drone()
-drone2.f.pos = (0,0,0)  
-car2 = create_robot()
-car2.pos = (0,0,0)
-rbtsubscribe(num)
+    d = 0
+    while d < num:
+        csub.subscribe("robot%i" %(d+1), qos = 0)
+        d = d+1
+    csub.loop_start()
+
+csub = paho.Client()
+subinit()
+simplesubscribe("subscribe",1)
